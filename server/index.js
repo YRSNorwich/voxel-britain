@@ -9,7 +9,7 @@ var crunch = require('voxel-crunch')
 var engine = require('voxel-engine')
 var texturePath = require('painterly-textures')(__dirname)
 var voxel = require('voxel')
-var generator = require('voxel-heightmap-terrain');
+var generator = require('../voxel-heightmap-terrain');
 var heightmap = require('./scaleishBritain.json');
 
 module.exports = function() {

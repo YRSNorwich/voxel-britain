@@ -11,7 +11,7 @@ var skin = require('minecraft-skin')
 var player = require('voxel-player')
 var texturePath = "/textures/"
 //var game
-var generator = require('voxel-heightmap-terrain')
+var generator = require('../voxel-heightmap-terrain')
 var heightmap = require('./scaleishBritain.json')
 
 module.exports = Client
