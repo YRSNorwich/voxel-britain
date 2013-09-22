@@ -1,9 +1,9 @@
-Install node.js
+# Usage
 
-then clone this repo, cd into it and do:
+Run:
 
-    npm install
-    sudo npm install -g browserify
-    npm start
+```
+npm start
+```
 
-then connect a browser to http://localhost:8080
+in both the client and server directories, then visit localhost:9966 in your favourite browser. (NB, ie6 probs won't work, sorry)
