@@ -1,6 +1,12 @@
 # Usage
 
-Run:
+First Run:
+
+```
+Make
+```
+
+Then If all goes smoothly: 
 
 ```
 npm start
