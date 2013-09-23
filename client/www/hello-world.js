@@ -2,6 +2,8 @@ var createClient = require('../')
 var highlight = require('voxel-highlight')
 var extend = require('extend')
 var voxelPlayer = require('voxel-player')
+var toolbar = require('toolbar')
+var bartab = toolbar('.bar-tab')
 var game
 
 module.exports = function(opts, setup) {
@@ -48,6 +50,10 @@ function defaultSetup(game, avatar, client) {
   // block interaction stuff, uses highlight data
   var currentMaterial = 1
 
+  bartab.on('select', function(item) {
+      currentMaterial = parseInt(item)
+  })
+
   game.on('fire', function (target, state) {
     var position = blockPosPlace
     if (position) {
@@ -63,3 +69,4 @@ function defaultSetup(game, avatar, client) {
     }
   })
 }
+

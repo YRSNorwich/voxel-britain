@@ -28,9 +28,10 @@ module.exports = function() {
         },
   	materials: [
         ['grass', 'dirt', 'grass_dirt'],
-  	'obsidian',
   	'brick',
-  	'grass'
+        'dirt',
+  	'obsidian',
+  	'snow'
   	],
   	texturePath: texturePath,
   	worldOrigin: [0, 0, 0],

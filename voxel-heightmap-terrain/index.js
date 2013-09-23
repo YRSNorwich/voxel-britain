@@ -12,12 +12,11 @@ module.exports = function(x, y, z, heightmap) {
   rgba = heightmap[z][x];
 
   if(y < 0) {
-      //lowest value happens to be 63 with this heightmap. What was that about ugly hack?
       return 0;
   }
   
   if(y === 0) {
-      return 2;
+      return 4; // Obsidian
   }
 
   return y < rgba.r ? 1 : 0;
