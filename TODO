@@ -1,0 +1,3 @@
+The 'ScaleishBritian' isn't actually quite to scale. This means things might be quite a few kilometres out, though
+no one should notice when playing at this stage. The problem is getting the heightmap image to map onto the pixelmapUK.
+Currently the 'solution' is just doing it roughly and hoping no one will notice the latitudes and longitudes are a bit out.
