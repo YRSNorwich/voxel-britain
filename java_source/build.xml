@@ -1,0 +1,28 @@
+<project>
+    <path id="classpath">
+        <fileset dir="." includes="**/*.jar"/>
+    </path>
+    
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="main" destdir="build/classes" classpathref="classpath"/>
+    </target>
+
+    <target name="jar"  depends="compile">
+        <delete file="build/jar/statstomaps.jar" />
+        <jar destfile="build/jar/statstomaps.jar" update="true">
+            <zipgroupfileset dir="lib" includes="*.jar"/>
+            <zipfileset dir="build/classes" />
+            <fileset dir="resources"/>
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Main-Class" value="com.hoolean.statstomaps.StatsToMaps"/>
+            </manifest>
+        </jar>  
+    </target>
+
+</project>
