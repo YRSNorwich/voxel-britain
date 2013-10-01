@@ -2,6 +2,7 @@ var createClient = require('../')
 var highlight = require('voxel-highlight')
 var extend = require('extend')
 var voxelPlayer = require('voxel-player')
+var fly = require('voxel-fly')
 var toolbar = require('toolbar')
 var bartab = toolbar('.bar-tab')
 var game
@@ -71,5 +72,10 @@ function defaultSetup(game, avatar, client) {
 
   game.on('renderChunk', function(chunk) {
   });
+
+  // Flying!
+  var makeFly = fly(game)
+  makeFly(game.controls.target())
+
 }
 
