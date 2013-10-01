@@ -68,5 +68,8 @@ function defaultSetup(game, avatar, client) {
       }
     }
   })
+
+  game.on('renderChunk', function(chunk) {
+  });
 }
 

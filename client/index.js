@@ -11,8 +11,8 @@ var skin = require('minecraft-skin')
 var player = require('voxel-player')
 var texturePath = "/textures/"
 //var game
-var generator = require('../voxel-heightmap-terrain')
-var heightmap = require('./scaleishBritain.json')
+var generator;
+var heightmaps = {};
 
 module.exports = Client
 
@@ -46,6 +46,7 @@ Client.prototype.bindEvents = function(socket, game) {
   var self = this
   this.emitter = duplexEmitter(socket)
   var emitter = this.emitter
+  generator = require('../voxel-heightmap-terrain')('client', emitter);
   this.connected = true
 
   emitter.on('id', function(id) {
@@ -80,6 +81,10 @@ Client.prototype.bindEvents = function(socket, game) {
   emitter.on('set', function(pos, val) {
     self.game.setBlock(pos, val)
   })
+
+  emitter.on('new heightmap', function(id, heightmap) {
+      heightmaps[id] = heightmap;
+  });
 }
 
 Client.prototype.createGame = function(settings, game) {

@@ -9,21 +9,21 @@ var crunch = require('voxel-crunch')
 var engine = require('voxel-engine')
 var texturePath = require('painterly-textures')(__dirname)
 var voxel = require('voxel')
-var generator = require('../voxel-heightmap-terrain');
+var generator = require('../voxel-heightmap-terrain')('server');
 var heightmap = require('./scaleishBritain.json');
+var fs = require('fs');
 
 module.exports = function() {
-  
   // these settings will be used to create an in-memory
   // world on the server and will be sent to all
   // new clients when they connect
   var settings = {
   	chunkDistance: 2,
-  	chunkSize: 32,
+  	chunkSize: 16,
         generateChunks: true,
         //generate: voxel.generator['Valley'],
         generate: function(x, y, z) {
-            return generator(x, y, z, heightmap);
+            return generator(x, y, z);
             //return y === 1 || y === 2 ? 1 : 0;
         },
   	materials: [
@@ -36,7 +36,7 @@ module.exports = function() {
   	texturePath: texturePath,
   	worldOrigin: [0, 0, 0],
   	controls: { discreteFire: true },
-	avatarInitialPosition: [10, 20, 10],
+	avatarInitialPosition: [5218, 200, 7087],
         mesher: voxel.meshers.greedy
   }
 
@@ -95,7 +95,7 @@ module.exports = function() {
 	  if (clientSettings != null && usingClientSettings == null) {
 		  usingClientSettings = true
 		  // Use the correct path for textures url
-	      clientSettings.texturePath = texturePath
+                  clientSettings.texturePath = texturePath
 		  //deserialise the voxel.generator function.
 		  if (clientSettings.generatorToString != null) {
 			  clientSettings.generate = eval("(" + clientSettings.generatorToString + ")")
