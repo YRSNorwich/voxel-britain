@@ -36,7 +36,7 @@ module.exports = function() {
   	texturePath: texturePath,
   	worldOrigin: [0, 0, 0],
   	controls: { discreteFire: true },
-	avatarInitialPosition: [5218, 200, 7087],
+	avatarInitialPosition: [5218, 200, 7087], // Mt. Snowdon.
         mesher: voxel.meshers.greedy
   }
 
