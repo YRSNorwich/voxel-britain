@@ -1,7 +1,5 @@
 var lonLat = require('../lonLat'),
     fs = require('fs'),
-    MAP_WIDTH = 700,
-    MAP_HEIGHT = 1102,
     voxelMultiplier = 50, // Units for the voxels. * 50 = every one is 50m^2
     heightScaler = 0.1, // Scales down the height so nothing is too totes ridic (no I don't think that's a real phrase)
     heightmaps = {},
@@ -69,7 +67,7 @@ var serverSide = function(x, y, z) {
             } else {
                 if(typeof heightmaps[memberName][memberName + tenKmCode] === 'undefined') {
                     // Looks like we're in the ocean
-                    //console.log('At the end of the lane');
+                    console.log('At the end of the lane');
                     return y === 0 ? 4 : 0;
                 } else {
                     // We have height data for this block
@@ -78,7 +76,7 @@ var serverSide = function(x, y, z) {
             }
         } else {
             if(typeof heightmaps[memberName][memberName + tenKmCode] !== 'undefined') {
-                return y < (heightmaps[memberName][memberName + tenkmCode][hmCoords.x][hmCoords.y]) * heightScaler ? 1 : 0;
+                return y < (heightmaps[memberName][memberName + tenkmCode][hmCoords.x][hmCoords.y]) * heightScaler ? 2 : 0;
             } else {
                 // Looks like we're in the ocean
                 //console.log('At the end of the lane');
@@ -108,33 +106,29 @@ var serverSide = function(x, y, z) {
 
 var clientSide = function(x, y, z) {
     //y = Math.round(y * 100);
-
-    if (z < 0 || x < 0) {
-        //We're off the map...
-        return y === 0 ? 4 : 0;
-    }
-
+    
     if(y < 0) {
         return 0;
+    }
+
+    if(y === 0) {
+        return 4; // Obsidian
+    }
+
+    if (z < 0 || x < 0) {
+        //We're off the map AND not at Obsidian level...
+        return  0;
     }
 
     var E = x * voxelMultiplier;
 
     var N = z * voxelMultiplier;
     
-    if(E % 10000 === 0) {
-        gridRef = lonLat({
-            x: E,
-            y: N
-        });
-    }
+    gridRef = lonLat({
+        x: E,
+        y: N
+    });
 
-    if(gridRef.slice(0, 2) !== 'SV') {
-        //console.log(gridRef);
-    }
-
-    //gridRef = 'SK 00000 00000';
-    
     // This breathtakingly beautiful piece of code sorts out returning the right height, after loading the heightmap if it isn't already here
     if(typeof gridRef !== 'undefined' && gridRef !== '') {
         // Convert coords for use with the json
@@ -204,16 +198,4 @@ var clientSide = function(x, y, z) {
         }
     }
     
-    if(y < 0) {
-        return 0;
-    }
-
-    if(y === 0) {
-        return 4; // Obsidian
-    }
-
-    return y === 0 ? 2 : 0;
-}
-
-function returnCorrectHeight() {
 }

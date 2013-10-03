@@ -1,5 +1,4 @@
 module.exports = function(pos) {
-    //Returns a real world longitude and latitude, assuming you're using our map of Britain
     if(pos) { 
         // Figure out the eastings and northings
         var E = pos.x;
@@ -7,6 +6,7 @@ module.exports = function(pos) {
 
         var gridRef = new OsGridRef(E, N);
 
+        // The OS grid reference
         return gridRef.toString();
     } else {
         console.log("Look bro, I need a position, and that ain't a position");
