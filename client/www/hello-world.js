@@ -5,6 +5,7 @@ var voxelPlayer = require('voxel-player')
 var fly = require('voxel-fly')
 var toolbar = require('toolbar')
 var bartab = toolbar('.bar-tab')
+var Weather = require('../../voxel-weather')
 var game
 
 module.exports = function(opts, setup) {
@@ -70,12 +71,31 @@ function defaultSetup(game, avatar, client) {
     }
   })
 
-  game.on('renderChunk', function(chunk) {
-  });
-
   // Flying!
   var makeFly = fly(game)
   makeFly(game.controls.target())
 
+  // Weather!
+  var weathering = false,
+      weather;
+
+  getWeather(true, 'soot'); 
+
+  function getWeather(yesno, type) {
+      if(yesno) {
+          weather = Weather({
+              game: game,
+              count: 2000,
+              size: 20,
+              speed: 0.1,
+              type: type
+          });
+          weathering = yesno;
+      }
+  }
+
+  game.on('tick', function() {
+      if(weathering) weather.tick();
+  });
 }
 

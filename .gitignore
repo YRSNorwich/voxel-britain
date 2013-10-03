@@ -1,4 +1,5 @@
 client/node_modules
 server/node_modules
 voxel-heightmap-terrain/node_modules
+voxel-weather/node_modules
 server/statstomaps/*

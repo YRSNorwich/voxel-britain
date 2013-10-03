@@ -1,0 +1,54 @@
+{
+  "name": "voxel-snow",
+  "description": "Snow for voxel.js",
+  "version": "0.2.0",
+  "homepage": "https://github.com/shama/voxel-snow",
+  "author": {
+    "name": "Kyle Robinson Young",
+    "email": "kyle@dontkry.com",
+    "url": "http://dontkry.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/shama/voxel-snow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shama/voxel-snow/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/shama/voxel-snow/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "start": "cd example && ../node_modules/.bin/beefy world.js 8080 -- -d",
+    "gh-pages": "cp -R ./example/* ./ && browserify world.js -o world.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "voxel-engine": "~0.17.1",
+    "voxel-perlin-terrain": "~0.0.5",
+    "beefy": "~0.3.0",
+    "voxel-player": "~0.1.0"
+  },
+  "peerDependencies": {
+    "voxel-engine": ">= 0.17.0",
+    "voxel-player": ">= 0.1.0"
+  },
+  "keywords": [
+    "voxel",
+    "snow"
+  ],
+  "readme": "# voxel-snow\n\n> Let it snow in [voxel.js](https://github.com/maxogden/voxel-engine).\n\n[View this example](http://shama.github.com/voxel-snow)\n\n## example\n\n```js\nvar snow = require('voxel-snow')({\n  // pass it a copy of the game\n  game: game,\n\n  // how many particles of snow\n  count: 1000,\n\n  // size of snowfall\n  size: 20,\n\n  // speed it falls\n  speed: 0.1,\n\n  // speed it drifts\n  drift: 1,\n\n  // material of the particle\n  material: game.THREE.ParticleBasicMaterial({color: 0xffffff, size: 1})\n});\n\ngame.on('tick', function() {\n  // update the snow by calling tick\n  snow.tick();\n});\n```\n\nLater you can add more snow:\n\n```js\nsnow.add(count, size, material);\n```\n\nOr access the snow particles directly:\n\n```js\nsnow.particles.forEach(function(particle) {\n  // particle === THREE.ParticleSystem\n});\n```\n\n## run the demo\n\n1. `git clone git://github.com/shama/voxel-snow && cd voxel-snow`\n1. `npm install`\n1. `npm start`\n\n## install\n\nWith [npm](https://npmjs.org) do:\n\n```\nnpm install voxel-snow\n```\n\nUse [browserify](http://browserify.org) to `require('voxel-snow')`.\n\n## release history\n* 0.2.0 - updates for voxel-engine@0.17.0\n* 0.1.1 - updates for voxel-engine@0.6.0\n* 0.1.0 - initial release\n\n## license\nCopyright (c) 2013 Kyle Robinson Young<br/>\nLicensed under the MIT license.\n",
+  "readmeFilename": "README.md",
+  "_id": "voxel-snow@0.2.0",
+  "dist": {
+    "shasum": "9d584ebf5ca5b52b4de1ae9e862495f9bcfba3dd"
+  },
+  "_from": "voxel-snow@",
+  "_resolved": "https://registry.npmjs.org/voxel-snow/-/voxel-snow-0.2.0.tgz"
+}

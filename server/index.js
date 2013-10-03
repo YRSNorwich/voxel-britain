@@ -21,7 +21,6 @@ module.exports = function() {
   	chunkDistance: 2,
   	chunkSize: 16,
         generateChunks: true,
-        //generate: voxel.generator['Valley'],
         generate: function(x, y, z) {
             return generator(x, y, z);
             //return y === 1 || y === 2 ? 1 : 0;
@@ -36,8 +35,8 @@ module.exports = function() {
   	texturePath: texturePath,
   	worldOrigin: [0, 0, 0],
   	controls: { discreteFire: true },
-	avatarInitialPosition: [5218, 200, 7087], // Mt. Snowdon.
-        mesher: voxel.meshers.greedy
+        avatarInitialPosition: [5218, 140, 7087], // Mt. Snowdon.
+        mesher: voxel.meshers.culled
   }
 
   var game = engine(settings)
