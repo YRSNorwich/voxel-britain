@@ -81,10 +81,6 @@ Client.prototype.bindEvents = function(socket, game) {
   emitter.on('set', function(pos, val) {
     self.game.setBlock(pos, val)
   })
-
-  emitter.on('new heightmap', function(id, heightmap) {
-      heightmaps[id] = heightmap;
-  });
 }
 
 Client.prototype.createGame = function(settings, game) {
