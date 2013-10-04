@@ -64,7 +64,7 @@ Weather.prototype.add = function(count, size, material) {
   return particles;
 };
 
-Weather.prototype.tick = function() {
+Weather.prototype.tick = function(dt) {
   var self = this;
   var target = self.game.controls.target();
   self.particles.forEach(function(particle) {
@@ -75,9 +75,9 @@ Weather.prototype.tick = function() {
     var bounds = particle.geometry.boundingBox;
     var count = particle.geometry.vertices.length;
     var a = target.yaw.rotation.y;
-    var x = Math.floor(target.velocity.x * 1000) / 50;
-    var y = Math.floor(target.velocity.y * 1000) / 50;
-    var z = Math.floor(target.velocity.z * 1000) / 50;
+    var x = Math.floor(target.velocity.x) / 50; //The velocities used to be timesed by 1000. I have no idea why. This seems to work. The 50 seems necessary. 
+    var y = Math.floor(target.velocity.y) / 50;
+    var z = Math.floor(target.velocity.z) / 50;
     // todo: fix this, should handle 2 directions at the same time
     var r = x !== 0 ? x * 0.5 : z !== 0 ? z : 0;
     if (x !== 0) a += Math.PI / 2;

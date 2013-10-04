@@ -1,3 +1,5 @@
+var $ = require('jquery-browserify');
+var lonLat = require('../../lonLat');
 var createClient = require('../')
 var highlight = require('voxel-highlight')
 var extend = require('extend')
@@ -19,6 +21,7 @@ module.exports = function(opts, setup) {
     var container = opts.container || document.body
     game = client.game
     game.appendTo(container)
+    game.terminalVelocity[1] = 1; // Up the terminal velocity of falling to what speed demon Milo considers a sensible value
     if (game.notCapable()) return game
     var createPlayer = voxelPlayer(game)
 
@@ -31,6 +34,7 @@ module.exports = function(opts, setup) {
     avatar.position.set(settings[0],settings[1],settings[2])
     setup(game, avatar, client)
   })
+
 
   return game
 }
@@ -79,9 +83,7 @@ function defaultSetup(game, avatar, client) {
   var weathering = false,
       weather;
 
-  getWeather(true, 'soot'); 
-
-  function getWeather(yesno, type) {
+  function makeWeather(yesno, type) {
       if(yesno) {
           weather = Weather({
               game: game,
@@ -93,9 +95,37 @@ function defaultSetup(game, avatar, client) {
           weathering = yesno;
       }
   }
+  
+  function getWeather() {
+      console.log('getting weather..');
+      var loc = lonLat({
+          x: window.avatar.position.x * 50,
+          y: window.avatar.position.z * 50
+      }, 'lonLat');
 
-  game.on('tick', function() {
-      if(weathering) weather.tick();
+      var url = "https://api.forecast.io/forecast/687b1e3ca3b67e95e0308640c0edbe5a/" + loc.x + "," + loc.y + "?callback=?";
+
+      $.getJSON(url, function(data) {
+          if(typeof data.currently.precipType !== 'undefined') {
+              makeWeather(true, data.currently.precipType)
+              console.log(data);
+          } else {
+              console.log("No precipitation here right now :'(");
+          }
+      });
+  }
+
+  //makeWeather(true, 'rain');
+
+  var fiveMins = 0; // Five minute timer
+  game.on('tick', function(dt) {
+      // Check weather every five minutes
+      fiveMins -= dt;
+      if(fiveMins <= 0) {
+          fiveMins = 1000 * 60 * 5;
+          getWeather();
+      }
+      if(weathering) weather.tick(dt);
   });
 }
 

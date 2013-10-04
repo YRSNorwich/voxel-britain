@@ -1,4 +1,4 @@
-module.exports = function(pos) {
+module.exports = function(pos, type) {
     if(pos) { 
         // Figure out the eastings and northings
         var E = pos.x;
@@ -6,8 +6,15 @@ module.exports = function(pos) {
 
         var gridRef = new OsGridRef(E, N);
 
-        // The OS grid reference
-        return gridRef.toString();
+        switch(type) {
+            case 'gridRef':
+                // The OS grid reference
+                return gridRef.toString();
+                break;
+            case 'lonLat':
+                // Longitude and Latitude Point
+                return OsGridRef.osGridToLatLong(gridRef);
+        }
     } else {
         console.log("Look bro, I need a position, and that ain't a position");
         return {

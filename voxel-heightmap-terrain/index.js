@@ -35,7 +35,7 @@ var serverSide = function(x, y, z) {
     gridRef = lonLat({
         x: parseInt(E),
         y: parseInt(N)
-    });
+    }, 'gridRef');
         
     var c1and2E = parseFloat(E.toString().slice(0, 2)) * 10000, // Columns 1 and 2 of Easting
         c1and2N = parseFloat(N.toString().slice(0, 2)) * 10000; // Columns 1 and 2 of Easting
@@ -106,13 +106,13 @@ var clientSide = function(x, y, z) {
         gridRefs[E][N] = gridRef = lonLat({
             x: E,
             y: N
-        });
+        }, 'gridRef');
     } else if(typeof gridRefs[E][N] === 'undefined') {
         gridRefs[E] = [];
         gridRefs[E][N] = gridRef = lonLat({ 
             x: E,
             y: N
-        });
+        }, 'gridRef');
     } else {
         gridRef = gridRefs[E][N];
     }
