@@ -42,7 +42,7 @@ var serverSide = function(x, y, z) {
         
     var hmCoords = {
         x: (E - c1and2E) / 50,
-        y: 199 - (N - c1and2N) / 50
+        y: 199 - Math.floor((N - c1and2N) / 50)
     }
 
     var memberName = gridRef.slice(0, 2), // What to call the object member (the two letter code)
@@ -89,7 +89,7 @@ var serverSide = function(x, y, z) {
     }
 
     return y === 0 ? 4 : 0;
-};
+}
 
 var clientSide = function(x, y, z) {
     if(x < 0 || z < 0) {
@@ -139,7 +139,6 @@ var clientSide = function(x, y, z) {
                 return y === 0 ? 4 : 0;
             } else {
                 // We have height data for this block
-                }
                 return y < Math.round(heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler) ? 1 : 0;
             }
         } else {
