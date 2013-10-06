@@ -139,7 +139,7 @@ var clientSide = function(x, y, z) {
                 return y === 0 ? 4 : 0;
             } else {
                 // We have height data for this block
-                return y < Math.round(heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler) ? 1 : 0;
+                return y < heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler ? 1 : 0;
             }
         } else {
             // Load
@@ -169,7 +169,7 @@ var clientSide = function(x, y, z) {
                 return y === 0 ? 4 : 0;
             } else {
                 // We have height data for this block
-                return y < Math.round(heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler) ? 1 : 0;
+                return y < heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler ? 1 : 0;
             }
 
             function callback(data) {
