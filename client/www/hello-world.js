@@ -22,6 +22,7 @@ module.exports = function(opts, setup) {
     game = client.game
     game.appendTo(container)
     game.terminalVelocity[1] = 1; // Up the terminal velocity of falling to what speed demon Milo considers a sensible value
+   
     if (game.notCapable()) return game
     var createPlayer = voxelPlayer(game)
 
@@ -101,7 +102,7 @@ function defaultSetup(game, avatar, client) {
       var loc = lonLat({
           x: window.avatar.position.x * 50,
           y: window.avatar.position.z * 50
-      }, 'lonLat');
+      }, 'gameToLonLat');
 
       var url = "https://api.forecast.io/forecast/687b1e3ca3b67e95e0308640c0edbe5a/" + loc.x + "," + loc.y + "?callback=?";
 

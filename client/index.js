@@ -11,8 +11,7 @@ var skin = require('minecraft-skin')
 var player = require('voxel-player')
 var texturePath = "/textures/"
 //var game
-var generator;
-var heightmaps = {};
+var generator = require('../voxel-heightmap-terrain')('client');
 
 module.exports = Client
 
@@ -46,7 +45,6 @@ Client.prototype.bindEvents = function(socket, game) {
   var self = this
   this.emitter = duplexEmitter(socket)
   var emitter = this.emitter
-  generator = require('../voxel-heightmap-terrain')('client', emitter);
   this.connected = true
 
   emitter.on('id', function(id) {
@@ -116,7 +114,7 @@ Client.prototype.createGame = function(settings, game) {
     if (interacting) sendState()
   })
     
-  emitChat(name, emitter)
+  emitChat(name, emitter, this.game)
 
   // setTimeout is because three.js seems to throw errors if you add stuff too soon
   setTimeout(function() {

@@ -15,6 +15,7 @@ module.exports = function(whichSide) {
         default:
             console.log("You've used the generate function wrong. Please pass in either 'client' or 'server'");
     }
+
 }
 
 var serverSide = function(x, y, z) {
@@ -34,12 +35,12 @@ var serverSide = function(x, y, z) {
 
     gridRef = lonLat({
         x: parseInt(E),
-        y: parseInt(N)
-    }, 'gridRef');
-        
+            y: parseInt(N)
+    }, 'gameToGridRef');
+
     var c1and2E = parseFloat(E.toString().slice(0, 2)) * 10000, // Columns 1 and 2 of Easting
         c1and2N = parseFloat(N.toString().slice(0, 2)) * 10000; // Columns 1 and 2 of Easting
-        
+
     var hmCoords = {
         x: (E - c1and2E) / 50,
         y: 199 - Math.floor((N - c1and2N) / 50)
@@ -92,10 +93,6 @@ var serverSide = function(x, y, z) {
 }
 
 var clientSide = function(x, y, z) {
-    if(x < 0 || z < 0) {
-        return 0;
-    }
-
     var E = x * voxelMultiplier;
 
     var N = z * voxelMultiplier;
@@ -106,13 +103,13 @@ var clientSide = function(x, y, z) {
         gridRefs[E][N] = gridRef = lonLat({
             x: E,
             y: N
-        }, 'gridRef');
+        }, 'gameToGridRef');
     } else if(typeof gridRefs[E][N] === 'undefined') {
         gridRefs[E] = [];
         gridRefs[E][N] = gridRef = lonLat({ 
             x: E,
             y: N
-        }, 'gridRef');
+        }, 'gameToGridRef');
     } else {
         gridRef = gridRefs[E][N];
     }
@@ -132,7 +129,7 @@ var clientSide = function(x, y, z) {
         }
 
 
-        // If the appropriate heightmap is unloaded, load it
+        // Get from heightmap, or load if heightmap isn't there
         if(heightmaps[memberName]) {
             if(typeof heightmaps[memberName][memberName + tenKmCode] === 'undefined') {
                 // Looks like we're in the ocean
@@ -148,24 +145,24 @@ var clientSide = function(x, y, z) {
             var heightmap = new XMLHttpRequest();
             heightmap.open("GET", path, false); // TODO make async work
             /*heightmap.onreadystatechange = function () {
-                console.log("change");
-                if(heightmap.readyState === 4) {
-                    if(heightmap.status === 200 || heightmap.status === 0) {
-                        var allText = heightmap.response;
-                        console.log(heightmap);
-                        callback(allText);
-                    }
-                }
-            }*/
+              console.log("change");
+              if(heightmap.readyState === 4) {
+              if(heightmap.status === 200 || heightmap.status === 0) {
+              var allText = heightmap.response;
+              console.log(heightmap);
+              callback(allText);
+              }
+              }
+              }*/
 
             heightmap.send(null);
 
             heightmaps[memberName] = JSON.parse(heightmap.response);
             console.log("added " + memberName);
-            
+
             if(typeof heightmaps[memberName][memberName + tenKmCode] === 'undefined') {
                 // Looks like we're in the ocean
-                //console.log('At the end of the lane');
+                console.log('At the end of the lane');
                 return y === 0 ? 4 : 0;
             } else {
                 // We have height data for this block
@@ -178,18 +175,17 @@ var clientSide = function(x, y, z) {
             }
         }
     }
-    
+
     /*if(y < 0) {
-        return 0;
-    }
+      return 0;
+      }
 
-    if(y === 0) {
-        return 4; // Obsidian
-    }
+      if(y === 0) {
+      return 4; // Obsidian
+      }
 
-    if (z < 0 || x < 0) {
-        //We're off the map AND not at Obsidian level...
-        return  0;
+      if (z < 0 || x < 0) {
+    //We're off the map AND not at Obsidian level...
+    return  0;
     }*/
-    
 }

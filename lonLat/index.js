@@ -1,19 +1,34 @@
 module.exports = function(pos, type) {
     if(pos) { 
-        // Figure out the eastings and northings
-        var E = pos.x;
-        var N = pos.y;
-
-        var gridRef = new OsGridRef(E, N);
 
         switch(type) {
-            case 'gridRef':
+            case 'gameToGridRef':
                 // The OS grid reference
+                
+                // Figure out the eastings and northings
+                var E = pos.x;
+                var N = pos.y;
+                var gridRef = new OsGridRef(E, N);
+
                 return gridRef.toString();
                 break;
-            case 'lonLat':
+            case 'gameToLonLat':
                 // Longitude and Latitude Point
+                
+                // Figure out the eastings and northings
+                var E = pos.x;
+                var N = pos.y;
+                var gridRef = new OsGridRef(E, N);
+                
                 return OsGridRef.osGridToLatLong(gridRef);
+            case 'lonLatToGridRef':
+                // Give a grid ref from a lonLat
+                gridRef = OsGridRef.latLongToOsGrid({
+                    latitude: pos.x,
+                    longitude: pos.y
+                });
+
+                return gridRef;
         }
     } else {
         console.log("Look bro, I need a position, and that ain't a position");
@@ -30,6 +45,7 @@ function Point(x, y) {
         y: y
     }
 }
+
 
 // The following was stolen in cold blood from the internet
 
@@ -57,6 +73,10 @@ function Point(x, y) {
 Number.prototype.toDeg = function() {
   return (this * 180) / Math.PI;
 }
+
+Number.prototype.toRad = function() {
+    return this * Math.PI / 180;
+}
  
 function OsGridRef(easting, northing) {
   this.easting = parseInt(easting, 10);
@@ -72,7 +92,7 @@ function OsGridRef(easting, northing) {
  */
 OsGridRef.latLongToOsGrid = function(point) {
   var lat = point.latitude.toRad(); 
-  var lon = point.longitude.toRad(); 
+  var lon = point.longitude.toRad();
   
   var a = 6377563.396, b = 6356256.910;          // Airy 1830 major & minor semi-axes
   var F0 = 0.9996012717;                         // NatGrid scale factor on central meridian
