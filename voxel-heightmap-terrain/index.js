@@ -42,7 +42,7 @@ var serverSide = function(x, y, z) {
         
     var hmCoords = {
         x: (E - c1and2E) / 50,
-        y: (N - c1and2N) / 50
+        y: 199 - (N - c1and2N) / 50
     }
 
     var memberName = gridRef.slice(0, 2), // What to call the object member (the two letter code)
@@ -124,22 +124,23 @@ var clientSide = function(x, y, z) {
             tenKmCode = gridRef.slice(3, 4) + gridRef.slice(9, 10);
 
         var c1and2E = parseFloat(E.toString().slice(0, 2)) * 10000, // Columns 1 and 2 of Easting
-            c1and2N = parseFloat(N.toString().slice(0, 2)) * 10000; // Columns 1 and 2 of Easting
+            c1and2N = parseFloat(N.toString().slice(0, 2)) * 10000; // Columns 1 and 2 of Northing
 
         var hmCoords = {
-            x: (E - c1and2E) / 50,
-            y: (N - c1and2N) / 50
+            x: Math.floor((E - c1and2E) / 50),
+            y: 199 - Math.floor((N - c1and2N) / 50) // Seems like this is how the y coords are stored. Like I'm doing Northings half backwards or something
         }
+
 
         // If the appropriate heightmap is unloaded, load it
         if(heightmaps[memberName]) {
             if(typeof heightmaps[memberName][memberName + tenKmCode] === 'undefined') {
                 // Looks like we're in the ocean
-                //console.log('At the end of the lane');
                 return y === 0 ? 4 : 0;
             } else {
                 // We have height data for this block
-                return y < (heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler) ? 1 : 0;
+                }
+                return y < Math.round(heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler) ? 1 : 0;
             }
         } else {
             // Load
@@ -169,7 +170,7 @@ var clientSide = function(x, y, z) {
                 return y === 0 ? 4 : 0;
             } else {
                 // We have height data for this block
-                return y < heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler ? 1 : 0;
+                return y < Math.round(heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler) ? 1 : 0;
             }
 
             function callback(data) {
@@ -179,7 +180,7 @@ var clientSide = function(x, y, z) {
         }
     }
     
-    if(y < 0) {
+    /*if(y < 0) {
         return 0;
     }
 
@@ -190,6 +191,6 @@ var clientSide = function(x, y, z) {
     if (z < 0 || x < 0) {
         //We're off the map AND not at Obsidian level...
         return  0;
-    }
+    }*/
     
 }

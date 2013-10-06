@@ -34,7 +34,7 @@ var heightMaps = {},
 for(var i = 0; i < jsonFiles.length; i++) {
     var name = jsonFiles[i].name,
         data = jsonFiles[i].data,
-        numbers = data.match(/\-?\d+\.?\d+/g);
+        numbers = data.match(/[-+]?[0-9]*\.?[0-9]/g);
     
     // Make 2D array to store los numbers
     heightMaps[name] = [];
