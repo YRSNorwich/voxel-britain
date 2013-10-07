@@ -7,8 +7,6 @@ var lonLat = require('../lonLat'),
     heightmaps = {},
     gridRef,
     gridRefs = []; // So we don't have to put the same 2D coord in fifty thousand million times
-
-
 module.exports = function(whichSide) {
     switch(whichSide) {
         case 'server':
@@ -173,19 +171,12 @@ var clientSide = function(x, y, z) {
             y: z * voxelMultiplier
         });
 
+        if(overlay[0] > 1 && blockValue > 0) {
+            blockValue = 2;
+        } else {
+            //console.log(overlay[0]);
+        }
+
         return blockValue;
     }
-
-    /*if(y < 0) {
-      return 0;
-      }
-
-      if(y === 0) {
-      return 4; // Obsidian
-      }
-
-      if (z < 0 || x < 0) {
-    //We're off the map AND not at Obsidian level...
-    return  0;
-    }*/
 }

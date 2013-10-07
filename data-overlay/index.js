@@ -15,11 +15,15 @@ function DataOverlay(pathToData) {
 }
 
 DataOverlay.prototype.getOverlay = function(point) {
-
-    filePoint = {
+    var filePoint = {
         x: (Math.floor((point.x / 14000)) * this.CHUNK_WIDTH),
         y: 1100 - (Math.floor((point.y / 20000)) * this.CHUNK_HEIGHT)
     }
+
+    var chunkPoint = {
+        x: Math.floor(((point.x / 14000) - Math.floor((point.x / 14000))) * this.CHUNK_WIDTH),
+        y: Math.floor(((point.y / 20000) - Math.floor((point.y / 20000))) * this.CHUNK_HEIGHT)
+    };
 
     point = {
         x: (filePoint.x / this.CHUNK_WIDTH), 
@@ -29,7 +33,7 @@ DataOverlay.prototype.getOverlay = function(point) {
     if(filePoint.y === 1100) filePoint.y -= 20;
 
     if(typeof this.overlays[point.x][point.y] !== 'undefined') {
-        return this.overlays[point.x][point.y];
+        return this.overlays[point.x][point.y].chunk[chunkPoint.x][chunkPoint.y];
     } else {
         var url = this.path + "chunk_" + filePoint.x + "_" + filePoint.y + ".json";
 
@@ -40,7 +44,7 @@ DataOverlay.prototype.getOverlay = function(point) {
 
         this.overlays[point.x][point.y] = JSON.parse(overlay.response);
 
-        return this.overlays[point.x][point.y];
+        return this.overlays[point.x][point.y].chunk[chunkPoint.x][chunkPoint.y];
     }
 
 }
