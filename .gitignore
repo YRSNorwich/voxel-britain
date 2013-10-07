@@ -4,3 +4,4 @@ voxel-heightmap-terrain/node_modules
 voxel-weather/node_modules
 server/statstomaps/*
 java_source/statstomaps
+java_source/build
