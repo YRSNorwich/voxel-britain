@@ -19,7 +19,10 @@ module.exports = Weather;
 
 Weather.prototype.add = function(count, size, material) {
   var game = this.game,
-      color;
+      color,
+      map = null,
+      transparent = false,
+      partSize = 1;
 
   count = count || 1000;
   size  = size  || 20;
@@ -34,6 +37,14 @@ Weather.prototype.add = function(count, size, material) {
       case 'soot':
           color = 0x000000;
           break;
+      case 'engageCage':
+          color = 0xffffff;
+          map = game.THREE.ImageUtils.loadTexture(
+                "nic.png"
+          );
+          transparent = true;
+          partSize = 20;
+          break;
       default:
           console.log('Weather type not supported. Please contact your system administrator.'); 
           break;
@@ -41,7 +52,9 @@ Weather.prototype.add = function(count, size, material) {
 
   material = material || new game.THREE.ParticleBasicMaterial({
     color: color,
-    size: 1
+    size: partSize,
+    map: map,
+    transparent: transparent
   });
 
   var half = size / 2;

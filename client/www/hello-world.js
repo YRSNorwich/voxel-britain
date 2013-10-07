@@ -22,7 +22,7 @@ module.exports = function(opts, setup) {
     game = client.game
     game.appendTo(container)
     game.terminalVelocity[1] = 1; // Up the terminal velocity of falling to what speed demon Milo considers a sensible value
-   
+    game.engageCage = false; // ...
     if (game.notCapable()) return game
     var createPlayer = voxelPlayer(game)
 
@@ -116,7 +116,6 @@ function defaultSetup(game, avatar, client) {
       });
   }
 
-  //makeWeather(true, 'rain');
 
   var fiveMins = 0; // Five minute timer
   game.on('tick', function(dt) {
@@ -126,8 +125,14 @@ function defaultSetup(game, avatar, client) {
           fiveMins = 1000 * 60 * 5;
           getWeather();
       }
+
       if(weathering) weather.tick(dt);
 
+      if(game.engageCage) {
+          game.engageCage = false;
+          makeWeather(true, 'engageCage');
+      }
+      
       if(window.avatar.position.y < -50) window.avatar.position.setY(10);
   });
 }

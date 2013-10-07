@@ -7,6 +7,7 @@ var lonLat = require('../lonLat'),
     heightmaps = {},
     gridRef,
     gridRefs = []; // So we don't have to put the same 2D coord in fifty thousand million times
+
 module.exports = function(whichSide) {
     switch(whichSide) {
         case 'server':
@@ -171,10 +172,31 @@ var clientSide = function(x, y, z) {
             y: z * voxelMultiplier
         });
 
-        if(overlay[0] > 1 && blockValue > 0) {
-            blockValue = 2;
-        } else {
-            //console.log(overlay[0]);
+        if(blockValue > 0) {
+
+            switch(overlay[0]) {
+                case 0:
+                    blockValue = 0;
+                    break;
+                case 1:
+                    blockValue = 1;
+                    break;
+                case 2:
+                    blockValue = 2;
+                    break;
+                case 3:
+                    blockValue = 2;
+                    break;
+                case 4:
+                    blockValue = 2;
+                    break;
+                case 5:
+                    blockValue = 2;
+                    break;
+                default:
+                    blockValue = 0;
+            }
+
         }
 
         return blockValue;
