@@ -1,0 +1,8 @@
+{
+  "name": "Data Overlay",
+  "version": "0.1",
+  "description": "Methods to load overly data and extract it",
+  "author": {
+    "name": "Milo Mordaunt"
+  }
+}

@@ -127,6 +127,8 @@ function defaultSetup(game, avatar, client) {
           getWeather();
       }
       if(weathering) weather.tick(dt);
+
+      if(window.avatar.position.y < -50) window.avatar.position.setY(10);
   });
 }
 

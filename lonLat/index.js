@@ -1,6 +1,5 @@
 module.exports = function(pos, type) {
     if(pos) { 
-
         switch(type) {
             case 'gameToGridRef':
                 // The OS grid reference

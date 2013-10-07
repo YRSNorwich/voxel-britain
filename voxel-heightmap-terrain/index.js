@@ -1,10 +1,13 @@
 var lonLat = require('../lonLat'),
     fs = require('fs'),
+    overlays = require('../data-overlay'),
+    overlays = new overlays('data/statstomaps/exported_data/chunks/'),
     voxelMultiplier = 50, // Units for the voxels. * 50 = every one is 50m^2
     heightScaler = 0.1, // Scales down the height so nothing is too totes ridic (no I don't think that's a real phrase)
     heightmaps = {},
-    gridRef;
+    gridRef,
     gridRefs = []; // So we don't have to put the same 2D coord in fifty thousand million times
+
 
 module.exports = function(whichSide) {
     switch(whichSide) {
@@ -93,6 +96,7 @@ var serverSide = function(x, y, z) {
 }
 
 var clientSide = function(x, y, z) {
+    var blockValue;
     var E = x * voxelMultiplier;
 
     var N = z * voxelMultiplier;
@@ -133,27 +137,19 @@ var clientSide = function(x, y, z) {
         if(heightmaps[memberName]) {
             if(typeof heightmaps[memberName][memberName + tenKmCode] === 'undefined') {
                 // Looks like we're in the ocean
-                return y === 0 ? 4 : 0;
+                blockValue = y === 0 ? 4 : 0;
             } else {
                 // We have height data for this block
-                return y < heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler ? 1 : 0;
+                blockValue = y < heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler ? 1 : 0;
             }
         } else {
             // Load
             var path = '/data/heightData/' + memberName.toLowerCase() + '.json'; // Path to needed heightmap
 
+            console.log("loading: " + path);
+
             var heightmap = new XMLHttpRequest();
             heightmap.open("GET", path, false); // TODO make async work
-            /*heightmap.onreadystatechange = function () {
-              console.log("change");
-              if(heightmap.readyState === 4) {
-              if(heightmap.status === 200 || heightmap.status === 0) {
-              var allText = heightmap.response;
-              console.log(heightmap);
-              callback(allText);
-              }
-              }
-              }*/
 
             heightmap.send(null);
 
@@ -163,17 +159,21 @@ var clientSide = function(x, y, z) {
             if(typeof heightmaps[memberName][memberName + tenKmCode] === 'undefined') {
                 // Looks like we're in the ocean
                 console.log('At the end of the lane');
-                return y === 0 ? 4 : 0;
+                blockValue = y === 0 ? 4 : 0;
             } else {
                 // We have height data for this block
-                return y < heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler ? 1 : 0;
-            }
-
-            function callback(data) {
-                console.log('data: ' + data);
-
+                blockvalue = y < heightmaps[memberName][memberName + tenKmCode][hmCoords.x][hmCoords.y] * heightScaler ? 1 : 0;
             }
         }
+
+        // Now blockValue should be equal to the value we want for this block not taking into account structures, ie cities/forts
+
+        var overlay = overlays.getOverlay({
+            x: x * voxelMultiplier,
+            y: z * voxelMultiplier
+        });
+
+        return blockValue;
     }
 
     /*if(y < 0) {
