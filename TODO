@@ -1,5 +1,7 @@
-1. Currently the SHITTONNE OF JSON (heightmaps) is stored both on the server and client. This is sort of silly, but both need a knowledge
+1. Currently the SHITTONNE* OF JSON (heightmaps) is stored both on the server and client. This is sort of silly, but both need a knowledge
 of the generator and I haven't had time to implement a proper system from shimmying a SHITTONNE OF JSON between the two safely. This is
 easier for now.
 
 ADD FEATURES THAT WORK AND LOOK VAGUELY INTRUIGING
+
+* professional industry term meaning 'a lot'
