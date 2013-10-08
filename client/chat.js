@@ -35,6 +35,7 @@ module.exports = function(name, emitter, game) {
             window.avatar.position.set(coords[0], coords[1], coords[2]);
         } else if (el.value.match(/engageCage/)){
             game.engageCage = true;
+            el.value = '';
         } else {
             emitter.emit('message', {user: name, text: el.value});
             el.value = '';
