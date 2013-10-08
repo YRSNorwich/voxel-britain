@@ -36,7 +36,8 @@ module.exports = function() {
   	worldOrigin: [0, 0, 0],
   	controls: { discreteFire: true },
         avatarInitialPosition: [5218, 140, 7087], // Mt. Snowdon.
-        mesher: voxel.meshers.culled
+        mesher: voxel.meshers.culled,
+        fogDisabled: true
   }
 
   var game = engine(settings)
