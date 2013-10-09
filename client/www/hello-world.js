@@ -112,6 +112,10 @@ function defaultSetup(game, avatar, client) {
               console.log(data);
           } else {
               console.log("No precipitation here right now :'(");
+              if(weathering) {
+                  weathering = false;
+                  weather.remove();
+              } 
           }
       });
   }
@@ -122,7 +126,7 @@ function defaultSetup(game, avatar, client) {
       // Check weather every five minutes
       fiveMins -= dt;
       if(fiveMins <= 0) {
-          fiveMins = 1000 * 60 * 5;
+          fiveMins = 1000 * 20;
           getWeather();
       }
 

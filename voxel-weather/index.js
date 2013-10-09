@@ -13,9 +13,16 @@ function Weather(opts) {
     this.game.scene.add(this.add(
       opts.count || null, opts.size || null, opts.material || null
     ));
+    return this;
   }
 }
 module.exports = Weather;
+
+Weather.prototype.remove = function() {
+    for (var i = 0; i < this.particles.length; i++) {
+        this.game.scene.remove(this.particles[i]);
+    };
+}
 
 Weather.prototype.add = function(count, size, material) {
   var game = this.game,
