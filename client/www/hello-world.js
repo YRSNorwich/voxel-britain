@@ -108,6 +108,7 @@ function defaultSetup(game, avatar, client) {
 
       $.getJSON(url, function(data) {
           if(typeof data.currently.precipType !== 'undefined') {
+              if(weathering) weather.remove();
               makeWeather(true, data.currently.precipType)
               console.log(data);
           } else {
@@ -126,7 +127,7 @@ function defaultSetup(game, avatar, client) {
       // Check weather every five minutes
       fiveMins -= dt;
       if(fiveMins <= 0) {
-          fiveMins = 1000 * 20;
+          fiveMins = 1000 * 60;
           getWeather();
       }
 
